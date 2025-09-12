@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{% url 'book_list' %}" class="btn btn-primary">
+            Back to Book List
+        </a>
+    </div>
+  <div class="card p-4 shadow-lg">
+    <h3>Checkout - {{ book.title }} (Qty: {{ quantity }})</h3>
+    <p>Total Amount:₹{{ total_amount  }}</p>
+    <button id="pay-button" class="btn btn-success btn-lg">Pay with Razorpay</button>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+var options = {
+    "key": "{{ razorpay_key_id }}",
+    "amount": "{{ amount }}",
+    "currency": "{{ currency }}",
+    "name": "Online Book Store",
+    "order_id": "{{ razorpay_order_id }}",
+    "handler": function (response){
+        // Create a hidden form and submit to Django
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'payment_success' %}";
+
+        // CSRF token
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+
+        // Razorpay fields
+        var fields = ['razorpay_payment_id','razorpay_order_id','razorpay_signature'];
+        fields.forEach(function(field){
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field;
+            input.value = response[field];
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();  // Django view will handle redirect
+    },
+    "theme": {"color": "#F37254"}
+};
+
+document.getElementById('pay-button').onclick = function(e){
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+{% endblock %}

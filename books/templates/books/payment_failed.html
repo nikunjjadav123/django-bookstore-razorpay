@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Payment Failed{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="alert alert-danger shadow-lg">
+    <h3>❌ Payment Failed</h3>
+    <p>Unfortunately, your payment could not be processed.</p>
+    <hr>
+    <h5>Payment Attempt:</h5>
+    <ul>
+      <li><b>Payment ID:</b> {{ payment.razorpay_payment_id }}</li>
+      <li><b>Order ID:</b> {{ payment.order.razorpay_order_id }}</li>
+      <li><b>Amount:</b> ₹{{ payment.amount }}</li>
+      <li><b>Status:</b> {{ payment.status }}</li>
+      <li><b>Date:</b> {{ payment.created_at }}</li>
+    </ul>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary mt-3">Try Again</a>
+  </div>
+</div>
+{% endblock %}

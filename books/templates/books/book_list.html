@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Student List{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Available Books</h1>
+    <div class="row">
+        {% if books %}
+            {% for book in books %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm text-center">
+                        <!-- Book Image -->
+                        <img src="{{ book.book_image.url }}" 
+                             class="card-img-top mx-auto mt-3" 
+                             alt="{{ book.title }}" 
+                             style="max-height: 250px; object-fit: contain; width: auto;">
+
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p><strong>Price:</strong> ₹{{ book.price }}</p>
+                            <a href="{% url 'book_detail' book.pk %}" class="btn btn-primary mt-2">
+                                Book Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No books available.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

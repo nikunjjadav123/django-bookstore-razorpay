@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Payment Successful{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="alert alert-success shadow-lg">
+    <h3>🎉 Payment Successful!</h3>
+    <p>Thank you for your purchase.</p>
+    <hr>
+    <h5>Payment Details:</h5>
+    <ul>
+      <li><b>Payment ID:</b> {{ payment.provider_payment_id }}</li>
+      <li><b>Order ID:</b> {{ payment.order.order_id }}</li>
+      <li><b>Book(s):</b>{{ payment.order.orderitems.quantity }}
+        <ul>
+          {% for item in order_items %}
+            <li>{{ item.book.title }} (Qty: {{ item.quantity }})</li>
+          {% empty %}
+            <li>No books found in this order.</li>
+          {% endfor %}
+        </ul>
+      </li>
+      <li><b>Amount:</b> ₹{{ payment.amount }}</li>
+      <li><b>Status:</b> {{ payment.status }}</li>
+      <li><b>Date:</b> {{ payment.created_at }}</li>
+    </ul>
+    <a href="{% url 'book_list' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+  </div>
+</div>
+{% endblock %}
