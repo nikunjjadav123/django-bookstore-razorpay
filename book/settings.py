@@ -92,14 +92,11 @@ DATABASES = {
 }
 
 # ✅ If DATABASE_URL exists (Railway or production), use it instead
-DATABASE_URL = "postgresql://postgres:DlRuJCaXUzNHxgUyiYkyFLZwpVPubrmA@centerbeam.proxy.rlwy.net:18601/railway"
+DATABASE_URL = config('DATABASE_URL', default=None)
 
 if DATABASE_URL:
-    DATABASES['default'] = dj_database_url.config(
-        default=DATABASE_URL,
-        conn_max_age=600,
-        ssl_require=True
-    )
+    DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'))
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
