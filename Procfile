@@ -1,1 +1,1 @@
-web: gunicorn django-bookstore-razorpay.wsgi
+web: gunicorn online_book.wsgi
