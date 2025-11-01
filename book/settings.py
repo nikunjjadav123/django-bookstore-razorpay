@@ -92,7 +92,7 @@ DATABASES = {
 }
 
 # ✅ If DATABASE_URL exists (Railway or production), use it instead
-DATABASE_URL = os.getenv('DATABASE_URL')
+DATABASE_URL = "postgresql://postgres:DlRuJCaXUzNHxgUyiYkyFLZwpVPubrmA@centerbeam.proxy.rlwy.net:18601/railway"
 
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.config(
