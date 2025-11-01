@@ -143,3 +143,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID')
 RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-bookstore-razorpay-production.up.railway.app'
+]
